@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 public class MoveObstacle : MonoBehaviour
@@ -13,11 +14,15 @@ public class MoveObstacle : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.x >= 100)
+        var platform = ObstacleSpawner.Instance.Platforms.FirstOrDefault(platform => name.Contains(platform.name));
+
+        if (platform == null) return;
+
+        if (transform.position.x >= platform.bounds.max.x)
         {
             _isSwitchDir = true;
         }
-        else if (transform.position.x <= -100)
+        else if (transform.position.x <= platform.bounds.min.x)
         {
             _isSwitchDir = false;
         }
